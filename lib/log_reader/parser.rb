@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "reader"
+require_relative "display"
 
 module LogReader
   class Parser
@@ -8,6 +9,7 @@ module LogReader
 
     def initialize(file)
       @file = file
+      @display = LogReader::Display.new
     end
 
     def call
@@ -18,37 +20,22 @@ module LogReader
 
       max_visit
       max_uniq_visit
-      complete_data
+      @display.complete_data data
     end
 
     private
 
     def max_visit
-      print_heading "Max visited sites are"
+      @display.heading "Max visited sites are"
       list = data.sort { |a, b| b[1][:count] <=> a[1][:count] }.to_h
-      list.each do |path, values|
-        p "#{path} #{values[:count]} visits"
-      end
+      @display.list list, :count, "visits"
     end
 
     def max_uniq_visit
-      print_heading "Max uniq visited sites are"
+      @display.heading "Max uniq visited sites are"
 
       list = data.sort { |a, b| b[1][:uniq_visit] <=> a[1][:uniq_visit] }.to_h
-      list.each do |path, values|
-        p "#{path} #{values[:uniq_visit]} unique views"
-      end
-    end
-
-    def complete_data
-      print_heading "complete break down of data"
-      pp data
-    end
-
-    def print_heading(heading)
-      p "*" * 100
-      p heading
-      p "*" * 100
+      @display.list list, :uniq_visit, "unique views"
     end
   end
 end
