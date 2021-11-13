@@ -2,12 +2,18 @@
 
 module LogReader
   class Reader
-    ALLOWED_EXT = %i[.log].freeze
     attr_reader :file, :errors, :json_data
 
+    ALLOWED_EXT = %w[.log].freeze
+    ERRORS = {
+      invalid_file: "Invalid file type",
+      blank_file: "File doesn't exist"
+    }.freeze
+
     def initialize(file)
-      @errors = "invalid type" unless ALLOWED_EXT.include? File.extname(file)
-      # TODO:  return if errors
+      validate_file(file)
+      return if errors
+
       @file = File.open(file)
       @json_data = {}
     end
@@ -21,6 +27,14 @@ module LogReader
     end
 
     private
+
+    def validate_file(file)
+      return @errors = ERRORS[:blank_file] unless File.file?(file)
+
+      # TODO: Add error if file is blank
+
+      @errors = ERRORS[:invalid_file] unless ALLOWED_EXT.include? File.extname(file)
+    end
 
     def add_data(data)
       path, ip = data.split(" ")

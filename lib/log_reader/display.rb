@@ -2,6 +2,11 @@
 
 module LogReader
   class Display
+    HEADINGS = {
+      complete_data: "Complete break down of data",
+      error: "Following error happened while parsing the file"
+    }.freeze
+
     def heading(heading)
       p "*" * 100
       p heading
@@ -15,8 +20,13 @@ module LogReader
     end
 
     def complete_data(data)
-      heading "complete break down of data"
+      heading HEADINGS[:complete_data]
       pp data
+    end
+
+    def show_errors(errors)
+      heading HEADINGS[:error]
+      p "=> #{errors}"
     end
   end
 end
