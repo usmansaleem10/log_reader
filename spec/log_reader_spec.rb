@@ -5,7 +5,7 @@ RSpec.describe LogReader do
     expect(LogReader::VERSION).not_to be nil
   end
 
-  it "does something useful" do
+  it "triggers parser" do
     expect(false).to eq(true)
   end
 end
