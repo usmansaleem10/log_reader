@@ -1,32 +1,27 @@
 # frozen_string_literal: true
 
 RSpec.describe LogReader::Parser do
-  it "receives only one input" do
-    expect(false).to eq(true)
-  end
-  it "receives reveives file path with .log extension" do
-    expect(false).to eq(true)
-  end
-  it "received file has data in it" do
-    expect(false).to eq(true)
-  end
-  it "receives only one input" do
-    expect(false).to eq(true)
-  end
-  it "returns valid count per path" do
-    expect(false).to eq(true)
-  end
-  it "return valid count per unique ip" do
-    expect(false).to eq(true)
-  end
-  it "return valid order of records" do
-    expect(false).to eq(true)
-  end
+  let(:file) { "/Users/usman/www/sites/tests/smart-pension/log_reader/spec/tmp/webserver.log" }
+  subject { LogReader::Parser.new(file) }
+  describe "initialize" do
+    it "throws error if no param is provided" do
+      expect { LogReader::Parser.new }.to raise_error
+    end
+    it "doesn't throws error if  param is provided" do
+      expect { LogReader::Parser.new(file) }.not_to raise_error
+    end
+    context "call" do
+      it "invokes max_visit" do
+        expect(subject).to receive(:max_visit)
+        subject.call
+      end
+      it "invokes max_uniq_visit" do
+        expect(subject).to receive(:max_uniq_visit)
+        subject.call
+      end
 
-  it "text for max visit is correct" do
-    expect(false).to eq(true)
-  end
-  it "text for max uniq visit is correct" do
-    expect(false).to eq(true)
+      xit "sorts data correctly" do
+      end
+    end
   end
 end

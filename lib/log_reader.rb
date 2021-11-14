@@ -6,8 +6,15 @@ module LogReader
   class Error < StandardError; end
 
   class PageStats
+    attr_reader :file, :parser
+
+    def initialize(file)
+      @file = file
+      @parser = LogReader::Parser.new(file)
+    end
+
     def call
-      Parser.new("/Users/usman/www/sites/tests/smart-pension/log_reader/spec/tmp/webserver.log").call
+      parser.call
     end
   end
 end

@@ -7,7 +7,8 @@ Log reader is a simple script that reads a file with.log extension and perform p
 - Navigate to directory
 - run bundle install
 
-rake run [Filename]
+rake run FILE="/Users/usman/www/sites/tests/smart-pension/log_reader/spec/tmp/webserver.log"
+(added this command and environment variable so that its more readable)
 
 ## Usage
 
@@ -16,10 +17,30 @@ rake run [Filename]
 
 ## Development
 
-Discuss approch here
+I initialized a ruby gem and integrated rubocop to lint the files and added rake gem to execute ruby code in a readable way.I removed unnecessary file.
+Added bundler instead of gemspec.
+Added rspec for testing the application
+Approch:
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/log_reader.
+- I have added 3 libs, parser, reader and display
+  Parser is basically the class which orchestrate reader and disply classes.
+  In reader I have implemented logic to read file, and map it in a way that I get following structure
+  {
+  "path": {
+  count: 2,
+  uniq_visits: 2,
+  ips: {
+  'ip1': 1,
+  'ip2': 1,
+  }
+  }
+  }
+  I kept Ips so that we can display any further information at later stages
+  The purpose of doing the mapping inside reader was that we can avoid extra itterations.
+  that the parser class uses it and sort data and displays it on the console
 
-## License
+## Things I could have better
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+- I could have added more specs
+- I coud have handled exceptions better in specs i.e handled specific exceptions instead of generic raise checks
+- I could have added a make file so that everything is set up automatically

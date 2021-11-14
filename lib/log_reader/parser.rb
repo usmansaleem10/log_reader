@@ -5,7 +5,7 @@ require_relative "display"
 
 module LogReader
   class Parser
-    attr_reader :file, :data
+    attr_reader :file, :data, :display, :reader
 
     HEADINGS = {
       max_visits: {
@@ -25,28 +25,28 @@ module LogReader
     end
 
     def call
-      return  @display.show_errors @reader.errors if @reader.errors
+      return  display.show_errors reader.errors if reader.errors
 
-      @reader.call
-      @data = @reader.json_data
+      reader.call
+      @data = reader.json_data
       max_visit
       max_uniq_visit
-      @display.complete_data data
+      display.complete_data data
     end
 
     private
 
     def max_visit
-      @display.heading HEADINGS[:max_visits][:heading]
+      display.heading HEADINGS[:max_visits][:heading]
       list = sort_data(:count)
-      @display.list list, :count, HEADINGS[:max_visits][:text]
+      display.list list, :count, HEADINGS[:max_visits][:text]
     end
 
     def max_uniq_visit
-      @display.heading HEADINGS[:max_uniq_visits][:heading]
+      display.heading HEADINGS[:max_uniq_visits][:heading]
 
       list = sort_data(:uniq_visit)
-      @display.list list, :uniq_visit, HEADINGS[:max_uniq_visits][:text]
+      display.list list, :uniq_visit, HEADINGS[:max_uniq_visits][:text]
     end
 
     def sort_data(key)

@@ -31,8 +31,6 @@ module LogReader
     def validate_file(file)
       return @errors = ERRORS[:blank_file] unless File.file?(file)
 
-      # TODO: Add error if file is blank
-
       @errors = ERRORS[:invalid_file] unless ALLOWED_EXT.include? File.extname(file)
     end
 
